@@ -6,6 +6,7 @@ import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.domain.generic.DomainEvent;
 import co.com.sofkau.entrenamiento.curso.commands.AgregarDirectrizMentoria;
+import co.com.sofkau.entrenamiento.curso.events.DirectrizAgregadaAMentoria;
 import co.com.sofkau.entrenamiento.curso.events.MentoriaCreada;
 import co.com.sofkau.entrenamiento.curso.values.CursoId;
 import co.com.sofkau.entrenamiento.curso.values.Directiz;
@@ -51,7 +52,9 @@ public class AgregarDirectrizMentoriaUseCaseTest {
                 .getDomainEvents();
 
 
-
+        //assert
+        var event = (DirectrizAgregadaAMentoria)events.get(0);
+        Assertions.assertEquals("xdxdxd", event.getDirectiz().value());
 
     }
 
