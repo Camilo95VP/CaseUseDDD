@@ -42,12 +42,12 @@ public class AgregarDirectrizMentoriaUseCaseTest {
     void agregarDirectrizAMentoria() {
 
         //arrange
-        CursoId cursoId = CursoId.of("Sofka DDD");
-        MentoriaId mentoriaId = MentoriaId.of("Implementando de Test");
-        Directiz directiz = new Directiz("Training");
+        CursoId cursoId = CursoId.of("Domain Driven Desing");
+        MentoriaId mentoriaId = MentoriaId.of("123456");
+        Directiz directiz = new Directiz("SofkaU");
         var command = new AgregarDirectrizMentoria(cursoId,mentoriaId,directiz);
 
-        when(repository.getEventsBy("Sofka DDD")).thenReturn(history());
+        when(repository.getEventsBy("Domain Driven Desing")).thenReturn(history());
         useCase.addRepository(repository);
 
         //act
@@ -59,17 +59,23 @@ public class AgregarDirectrizMentoriaUseCaseTest {
 
         //assert
         var event = (DirectrizAgregadaAMentoria)events.get(0);
-        Assertions.assertEquals("Training", event.getDirectiz().value());
-    }
+        Assertions.assertEquals("SofkaU", event.getDirectiz().value());
 
+    }
     private List<DomainEvent> history() {
 
-        var nombreCurso = new Nombre("SofkaU");
-        var descripcionCurso = new Descripcion("Training");
-        var cursoid = CursoId.of("123456");
-        var event = new CursoCreado(nombreCurso,descripcionCurso);
-        event.setAggregateRootId(cursoid.value());
-        return List.of(event);
+        var nombreCurso = new Nombre("Aplicacion Empresarial");
+        var descripcionCurso = new Descripcion("Training SofkaU");
+        var cursoid = CursoId.of("Domain Driven Desing");
+        var eventoCurso = new CursoCreado(nombreCurso,descripcionCurso);
+
+        var nombreMentoria = new Nombre("Programacion funcional/Reactiva");
+        var fecha = new Fecha(LocalDateTime.now(), LocalDate.now());
+        var mentoriaId = MentoriaId.of("123456");
+        var eventoMentoria = new MentoriaCreada(mentoriaId,nombreMentoria,fecha);
+
+        eventoCurso.setAggregateRootId(cursoid.value());
+        return List.of(eventoCurso,eventoMentoria);
     }
 }
 
